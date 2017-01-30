@@ -10,7 +10,7 @@ The current data sources are:
 
 ## Data sources
 ### Compute resources
-The compute resources consist of x86 machines (in chronological order); Bruce (SGI), Merri (IBM), Barcoo (IBM), and Snowy (IBM), and the BlueGene machines; Tambo and Avoca.
+The compute resources consist of x86 machines (in chronological order); Bruce (SGI), Merri (IBM), Barcoo (IBM), and Snowy (Lenovo), and the IBM BlueGene machines; Tambo and Avoca.
 
 Job logs are stored in Karaage and SLURM databases.  Karaage job data is collected daily and summarises jobs that completed on the day.  The SLURM database has more comprehensive job information, but was implemented on each cluster at different times (as summarised in the following table)
 
