@@ -63,7 +63,7 @@ USE_COLS = ['Account', 'AveDiskRead', 'AveDiskWrite', 'MaxDiskRead', 'MaxDiskWri
 ## cols to save, including derived fields
 OUT_COLS = ['Cluster', 'ParentJobID', 'Account', 'Group', 'User',
             'NCPUS', 'NNodes', 'NTasks', 'Timelimit',
-            'Start', 'Submit', 'Elapsed', 'Eligible', 'End',
+            'Start', 'StartYear', 'Submit', 'Elapsed', 'Eligible', 'End',
             'SystemCPU', 'TotalCPU', 'UserCPU', 'CPUTimeRAW', 'SU',
             'TotalReqMemMB', 'ContiguousReqMemMB', 'ReqMemType',
             'TotalDiskReadMB', 'TotalDiskWriteMB', 'MaxDiskReadMB/s', 'MaxDiskWriteMB/s',
@@ -223,6 +223,9 @@ def add_step_fields(df):
     df['MaxDiskReadMB/s'] = np.where(df['Elapsed'] > 0, df['TotalDiskReadMB'].div(df['Elapsed'], axis='index'), 0)
 
     df['MaxDiskWriteMB/s'] = np.where(df['Elapsed'] > 0, df['TotalDiskWriteMB'].div(df['Elapsed'], axis='index'), 0)
+
+    # Add year of each job (where job spanned years, this is the year the job started)
+    df['StartYear'] = df['Start'].apply(lambda seconds: (BEGINING_OF_TIME+datetime.timedelta(seconds=seconds)).year)
 
 
 # What times to collect, elapsed, UserCPU, SystemCPU (TotalCPU = User + System)
