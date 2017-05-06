@@ -56,18 +56,23 @@ ALL_COLS = ['AllocCPUS', 'AllocGRES', 'AllocNodes', 'AllocTRES', 'Account',
 ## See https://docs.google.com/document/d/1fINxu8ddsaaN32fC8a_SpvQVzewQiMK5wPV-Qx7PeqI
 USE_COLS = ['Account', 'AveDiskRead', 'AveDiskWrite', 'MaxDiskRead', 'MaxDiskWrite', 'Cluster', 'CPUTimeRAW',
             'Elapsed', 'Eligible', 'End', 'Group', 'JobID', 'JobIDRaw', 'NCPUS', 'NNodes',
-            'NTasks', 'ReqMem', 'Start', 'State', 'Submit', 'SystemCPU',
+            'NTasks', 'ReqMem', 'Reserved', 'Start', 'State', 'Submit', 'Suspended', 'SystemCPU',
             'Timelimit', 'TotalCPU', 'User', 'UserCPU',
             ]
 
 ## cols to save, including derived fields
 OUT_COLS = ['Cluster', 'ParentJobID', 'Account', 'Group', 'User',
             'NCPUS', 'NNodes', 'NTasks', 'Timelimit',
-            'Start', 'StartYear', 'Submit', 'Elapsed', 'Eligible', 'End',
+            'Submit', 'Eligible', 'Start', 'End', 'StartYear',
+            'Suspended', 'Reserved', 'Elapsed',
             'SystemCPU', 'TotalCPU', 'UserCPU', 'CPUTimeRAW', 'SU',
             'TotalReqMemMB', 'ContiguousReqMemMB', 'ReqMemType',
             'TotalDiskReadMB', 'TotalDiskWriteMB', 'MaxDiskReadMB/s', 'MaxDiskWriteMB/s',
             'State', 'JobState', 'JobSteps']
+
+# check for typos in column specifications
+assert len(OUT_COLS) == len(set(OUT_COLS)) # OUT_COLS should be unique
+assert set(USE_COLS).issubset(set(ALL_COLS))
 
 
 ## converters
@@ -178,8 +183,10 @@ def get_raw_data(infile=None):
                             'Elapsed': convert_duration,
                             'Eligible': convert_duration,
                             'End': convert_duration,
+                            'Reserved': convert_duration,
                             'Start': convert_duration,
                             'Submit': convert_duration,
+                            'Suspended': convert_duration,
                             'SystemCPU': convert_duration,
                             'Timelimit': convert_duration,
                             'TotalCPU': convert_duration,
